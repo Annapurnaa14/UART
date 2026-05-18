@@ -1,2 +1,2 @@
 # UART
-A new repository created for UART project
+A new repository created for the UART project

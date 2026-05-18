@@ -1,5 +1,4 @@
 module tb_uart;
- 
     parameter clk_freq  = 76800;   
     parameter baud_rate = 2400;
     parameter width = 8;

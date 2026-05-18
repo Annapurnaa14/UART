@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 module uart_tx #(parameter width = 8)(
     input  baud_op_clk,sys_rst, xmit_h,
     input  [width-1:0] xmit_data_h,

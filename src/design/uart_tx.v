@@ -1,30 +1,32 @@
 module uart_tx #(parameter width = 8)(
-    input  baud_op_clk,sys_rst, xmit_h,
+    input   baud_op_clk,
+    input   sys_rst,
+    input   xmit_h,
     input  [width-1:0] xmit_data_h,
-    output reg  xmit_done_h, xmit_active, uart_xmit_data_h );
+    output reg xmit_done_h, xmit_active, uart_xmit_data_h );
     localparam idle  = 2'd0,
                start = 2'd1,
                data  = 2'd2,
                stop  = 2'd3;
  
-    reg [1:0]  ct, nt;
-    reg [3:0] count;
+    reg [1:0]   ct, nt;
+    reg [3:0]   count;
     reg [$clog2(width):0] index;
     reg [width-1:0]  latched_data;
     reg  out;
  
     always @(posedge baud_op_clk or negedge sys_rst) begin
         if (!sys_rst) begin
-            ct <= idle;
-            count <= 0;
-            index  <= 0;
-            latched_data  <= 0;
+            ct               <= idle;
+            count            <= 0;
+            index            <= 0;
+            latched_data     <= 0;
             uart_xmit_data_h <= 1;
-            xmit_done_h <= 0;
-            xmit_active <= 0;
+            xmit_done_h      <= 0;
+            xmit_active      <= 0;
         end
         else begin
-            ct   <= nt;
+            ct               <= nt;
             uart_xmit_data_h <= out;
  
             if (xmit_h && ct == idle)
@@ -37,11 +39,13 @@ module uart_tx #(parameter width = 8)(
             if (ct == idle)       index <= 0;
             else if (ct == data && count == 15 && nt == data)
                                   index <= index + 1;
-          
+ 
+            
             if (ct == stop && nt == idle)
                 xmit_done_h <= 1'b1;
             else if (ct == idle && xmit_h)
                 xmit_done_h <= 1'b0;
+ 
             xmit_active <= (nt != idle);
         end
     end

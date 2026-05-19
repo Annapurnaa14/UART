@@ -3,9 +3,9 @@ module tb_uart;
     parameter baud_rate = 2400;
     parameter width     = 8;
 
-    reg              sys_clk;
-    reg              sys_rst;
-    reg              xmit_h;
+    reg   sys_clk;
+    reg   sys_rst;
+    reg   xmit_h;
     reg  [width-1:0] xmit_data_h;
 
     wire             baud_op_clk;
